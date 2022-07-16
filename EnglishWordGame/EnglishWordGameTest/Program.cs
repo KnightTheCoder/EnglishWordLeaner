@@ -7,7 +7,15 @@ namespace EnglishWordGameTest
         static void Main(string[] args)
         {
             WordDatabase wordDatabase = new WordDatabase();
-            Console.ReadKey();
+
+            Console.Write("Category: ");
+            string categoryName = Console.ReadLine();
+
+            if(wordDatabase.AddCategory(categoryName))
+                Console.WriteLine("Success!");
+
+            else
+                Console.WriteLine("Failed!");
         }
     }
 }

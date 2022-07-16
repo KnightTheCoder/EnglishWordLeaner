@@ -27,7 +27,7 @@ namespace EnglishWordGameBackEnd.Database
             if (!File.Exists($"{name}.sqlite"))
                 SQLiteConnection.CreateFile($"{name}.sqlite");
 
-            CreateWordsTable();
+            CreateTables();
         }
 
         private void OpenConnection()
@@ -41,11 +41,11 @@ namespace EnglishWordGameBackEnd.Database
             if (this.connection.State != ConnectionState.Closed)
                 this.connection.Close();
         }
-
-        private void CreateWordsTable()
+        
+        private void CreateTables()
         {
             string query = "CREATE TABLE IF NOT EXISTS categories (" +
-                "category_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "category TEXT" +
                 ");"
                 +
@@ -54,13 +54,26 @@ namespace EnglishWordGameBackEnd.Database
                 "english_word TEXT," +
                 "hungarian_word TEXT," +
                 "category_id TEXT," +
-                "FOREIGN KEY(category_id) REFERENCES categories(category)" +
+                "FOREIGN KEY(category_id) REFERENCES categories(id) ON UPDATE CASCADE" +
                 ");";
 
             SQLiteCommand command = new SQLiteCommand(query, connection);
             OpenConnection();
             command.ExecuteNonQuery();
             CloseConnection();
+        }
+
+        public bool AddCategory(string name)
+        {
+            string query = "INSERT INTO categories(category) VALUES (@category)";
+            SQLiteCommand command = new SQLiteCommand(query, connection);
+            command.Parameters.AddWithValue("@category", name);
+
+            OpenConnection();
+            int affectedRows = command.ExecuteNonQuery();
+            CloseConnection();
+            
+            return affectedRows > 0;
         }
     }
 }
