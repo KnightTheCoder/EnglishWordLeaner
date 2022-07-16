@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using EnglishWordGameBackEnd.Models;
+using System.Data;
 using System.Data.SQLite;
 
 namespace EnglishWordGameBackEnd.Database
@@ -46,7 +47,7 @@ namespace EnglishWordGameBackEnd.Database
         {
             string query = "CREATE TABLE IF NOT EXISTS categories (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "category TEXT" +
+                "name TEXT" +
                 ");"
                 +
                 "CREATE TABLE IF NOT EXISTS words (" +
@@ -65,9 +66,9 @@ namespace EnglishWordGameBackEnd.Database
 
         public bool AddCategory(string name)
         {
-            string query = "INSERT INTO categories(category) VALUES (@category)";
+            string query = "INSERT INTO categories(name) VALUES (@name)";
             SQLiteCommand command = new SQLiteCommand(query, connection);
-            command.Parameters.AddWithValue("@category", name);
+            command.Parameters.AddWithValue("@name", name);
 
             OpenConnection();
             int affectedRows = command.ExecuteNonQuery();
@@ -75,5 +76,58 @@ namespace EnglishWordGameBackEnd.Database
             
             return affectedRows > 0;
         }
+
+        public bool RemoveCategory(int id)
+        {
+            string query = "DELETE FROM categories WHERE id = @id";
+            SQLiteCommand command = new SQLiteCommand(query, connection);
+            command.Parameters.AddWithValue("@id", id);
+
+            OpenConnection();
+            int affectedRows = command.ExecuteNonQuery();
+            CloseConnection();
+
+            return affectedRows > 0;
+        }
+
+        public Category GetCategory(string name)
+        {
+            Category category = new Category();
+            string query = "SELECT id, name FROM categories WHERE name = @name";
+
+            SQLiteCommand command = new SQLiteCommand(query, connection);
+            command.Parameters.AddWithValue("@name", name);
+
+            OpenConnection();
+            SQLiteDataReader reader = command.ExecuteReader();
+            while(reader.Read())
+            {
+                category.ID = reader.GetInt32("id");
+                category.Name = reader.GetString("name");
+            }
+            CloseConnection();
+
+            return category;
+        }
+
+        public List<Category> GetAllCategories()
+        {
+            List<Category> categories = new List<Category>();
+            string query = "SELECT id, name FROM categories";
+
+            SQLiteCommand command = new SQLiteCommand(query, connection);
+
+            OpenConnection();
+            SQLiteDataReader reader = command.ExecuteReader();
+            while(reader.Read())
+            {
+                Category category = new Category(reader.GetInt32("id"), reader.GetString("name"));
+                categories.Add(category);
+            }
+            CloseConnection();
+
+            return categories;
+        }
+
     }
 }
