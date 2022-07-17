@@ -12,7 +12,7 @@ namespace EnglishWordGameTest
             wordDatabase = new WordDatabase();
 
             //CategoryTest();
-            WordTest();
+            //WordTest();
 
             Console.ReadKey();
         }
@@ -43,7 +43,7 @@ namespace EnglishWordGameTest
 
             foreach (Category category in wordDatabase.GetAllCategories())
             {
-                Console.WriteLine($"ID: {category.ID}, Name: {category.Name}");
+                Console.WriteLine(category);
             }
         }
 
@@ -79,7 +79,7 @@ namespace EnglishWordGameTest
 
             foreach(Word word in wordDatabase.GetAllWords())
             {
-                Console.WriteLine($"ID: {word.ID}, English word: {word.EnglishWord}, Hungarian word: {word.HungarianWord}, Category id: {word.CategoryId}");
+                Console.WriteLine(word);
             }
         }
     }

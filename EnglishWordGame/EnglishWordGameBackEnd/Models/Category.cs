@@ -16,5 +16,10 @@
             this.ID = id;
             this.Name = name;
         }
+
+        public override string ToString()
+        {
+            return $"ID: {this.ID}, Name: {this.Name}";
+        }
     }
 }

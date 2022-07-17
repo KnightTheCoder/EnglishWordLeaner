@@ -26,7 +26,7 @@ namespace EnglishWordGameBackEnd.Database
             this.connection = new SQLiteConnection("Data Source = " +
                 $"{name}.sqlite;Version = 3;");
 
-            if (!File.Exists($"{name}.sqlite"))
+            if (!File.Exists($"./{name}.sqlite"))
                 SQLiteConnection.CreateFile($"{name}.sqlite");
 
             CreateTables();
@@ -74,6 +74,22 @@ namespace EnglishWordGameBackEnd.Database
             return affectedRows > 0;
         }
 
+        private Category GetCategoryBase(SQLiteCommand command)
+        {
+            Category category = new Category();
+
+            OpenConnection();
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                category.ID = reader.GetInt32("id");
+                category.Name = reader.GetString("name");
+            }
+            CloseConnection();
+
+            return category;
+        }
+
         public bool AddCategory(string name)
         {
             string query = "INSERT INTO categories(name) VALUES (@name)";
@@ -94,22 +110,22 @@ namespace EnglishWordGameBackEnd.Database
 
         public Category GetCategory(string name)
         {
-            Category category = new Category();
             string query = "SELECT id, name FROM categories WHERE name = @name";
 
             SQLiteCommand command = new SQLiteCommand(query, connection);
             command.Parameters.AddWithValue("@name", name);
 
-            OpenConnection();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while(reader.Read())
-            {
-                category.ID = reader.GetInt32("id");
-                category.Name = reader.GetString("name");
-            }
-            CloseConnection();
+            return GetCategoryBase(command);
+        }
 
-            return category;
+        public Category GetCategory(int id)
+        {
+            string query = "SELECT id, name FROM categories WHERE id = @id";
+
+            SQLiteCommand command = new SQLiteCommand(query, connection);
+            command.Parameters.AddWithValue("@id", id);
+
+            return GetCategoryBase(command);
         }
 
         public List<Category> GetAllCategories()

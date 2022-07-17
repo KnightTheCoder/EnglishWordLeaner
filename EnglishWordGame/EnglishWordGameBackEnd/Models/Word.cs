@@ -22,5 +22,11 @@
             this.HungarianWord = hungarianWord;
             this.CategoryId = category;
         }
+
+        public override string ToString()
+        {
+            return $"ID: {this.ID}, English Word: {this.EnglishWord}, " +
+                $"Hungarian Word: {this.HungarianWord}, Category ID: {this.CategoryId}";
+        }
     }
 }
