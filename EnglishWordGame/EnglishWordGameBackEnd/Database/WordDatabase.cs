@@ -53,8 +53,8 @@ namespace EnglishWordGameBackEnd.Database
                 +
                 "CREATE TABLE IF NOT EXISTS words (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "english_word TEXT," +
-                "hungarian_word TEXT," +
+                "original_word TEXT," +
+                "meaning TEXT," +
                 "category_id INTEGER," +
                 "FOREIGN KEY(category_id) REFERENCES categories(id) ON UPDATE CASCADE" +
                 ");";
@@ -72,22 +72,6 @@ namespace EnglishWordGameBackEnd.Database
             CloseConnection();
 
             return affectedRows > 0;
-        }
-
-        private Category GetCategoryBase(SQLiteCommand command)
-        {
-            Category category = new Category();
-
-            OpenConnection();
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                category.ID = reader.GetInt32("id");
-                category.Name = reader.GetString("name");
-            }
-            CloseConnection();
-
-            return category;
         }
 
         public bool AddCategory(string name)
@@ -108,16 +92,6 @@ namespace EnglishWordGameBackEnd.Database
             return ExecuteCommand(command);
         }
 
-        public Category GetCategory(string name)
-        {
-            string query = "SELECT id, name FROM categories WHERE name = @name";
-
-            SQLiteCommand command = new SQLiteCommand(query, connection);
-            command.Parameters.AddWithValue("@name", name);
-
-            return GetCategoryBase(command);
-        }
-
         public Category GetCategory(int id)
         {
             string query = "SELECT id, name FROM categories WHERE id = @id";
@@ -125,7 +99,18 @@ namespace EnglishWordGameBackEnd.Database
             SQLiteCommand command = new SQLiteCommand(query, connection);
             command.Parameters.AddWithValue("@id", id);
 
-            return GetCategoryBase(command);
+            Category category = new Category();
+
+            OpenConnection();
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                category.ID = reader.GetInt32("id");
+                category.Name = reader.GetString("name");
+            }
+            CloseConnection();
+
+            return category;
         }
 
         public List<Category> GetAllCategories()
@@ -148,13 +133,13 @@ namespace EnglishWordGameBackEnd.Database
             return categories;
         }
 
-        public bool AddWord(string english_word, string hungarian_word, int category_id)
+        public bool AddWord(string original_word, string meaning, int category_id)
         {
-            string query = "INSERT INTO words(english_word, hungarian_word, " +
-                "category_id) VALUES (@english_word, @hungarian_word, @category_id)";
+            string query = "INSERT INTO words(original_word, meaning, " +
+                "category_id) VALUES (@original_word, @meaning, @category_id)";
             SQLiteCommand command = new SQLiteCommand(query, connection);
-            command.Parameters.AddWithValue("@english_word", english_word);
-            command.Parameters.AddWithValue("@hungarian_word", hungarian_word);
+            command.Parameters.AddWithValue("@original_word", original_word);
+            command.Parameters.AddWithValue("@meaning", meaning);
             command.Parameters.AddWithValue("@category_id", category_id);
 
             return ExecuteCommand(command);
@@ -169,22 +154,23 @@ namespace EnglishWordGameBackEnd.Database
             return ExecuteCommand(command);
         }
 
-        public Word GetWord(string english_word)
+        public Word GetWord(int id)
         {
-            Word word = new Word();
-            string query = "SELECT id, english_word, hungarian_word, category_id " +
-                "FROM words WHERE english_word = @english_word";
+            string query = "SELECT id, original_word, meaning, category_id " +
+                "FROM words WHERE id = @id";
 
             SQLiteCommand command = new SQLiteCommand(query, connection);
-            command.Parameters.AddWithValue("@english_word", english_word);
+            command.Parameters.AddWithValue("@id", id);
+
+            Word word = new Word();
 
             OpenConnection();
             SQLiteDataReader reader = command.ExecuteReader();
-            while(reader.Read())
+            while (reader.Read())
             {
                 word.ID = reader.GetInt32("id");
-                word.EnglishWord = reader.GetString("english_word");
-                word.HungarianWord = reader.GetString("hungarian_word");
+                word.OriginalWord = reader.GetString("original_word");
+                word.Meaning = reader.GetString("meaning");
                 word.CategoryId = reader.GetInt32("category_id");
             }
             CloseConnection();
@@ -195,7 +181,7 @@ namespace EnglishWordGameBackEnd.Database
         public List<Word> GetAllWords()
         {
             List<Word> words = new List<Word>();
-            string query = "SELECT id, english_word, hungarian_word, category_id " +
+            string query = "SELECT id, original_word, meaning, category_id " +
                 "FROM words";
 
             SQLiteCommand command = new SQLiteCommand(query, connection);
@@ -205,8 +191,8 @@ namespace EnglishWordGameBackEnd.Database
             while(reader.Read())
             {
                 Word word = new Word(reader.GetInt32("id"),
-                    reader.GetString("english_word"),
-                    reader.GetString("hungarian_word"),
+                    reader.GetString("original_word"),
+                    reader.GetString("meaning"),
                     reader.GetInt32("category_id")
                     );
                 words.Add(word);

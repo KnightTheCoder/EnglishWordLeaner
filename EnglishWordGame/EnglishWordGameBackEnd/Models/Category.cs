@@ -7,7 +7,7 @@
 
         public Category()
         {
-            this.ID = 1;
+            this.ID = 0;
             this.Name = String.Empty;
         }
 

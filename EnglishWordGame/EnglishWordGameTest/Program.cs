@@ -9,10 +9,10 @@ namespace EnglishWordGameTest
 
         static void Main(string[] args)
         {
-            wordDatabase = new WordDatabase();
+            wordDatabase = new WordDatabase("english_learning");
 
-            //CategoryTest();
-            //WordTest();
+            CategoryTest();
+            WordTest();
 
             Console.ReadKey();
         }
@@ -28,20 +28,24 @@ namespace EnglishWordGameTest
             else
                 Console.WriteLine("Failed!");
 
+            List<Category> categories = wordDatabase.GetAllCategories();
+            foreach (Category category in categories)
+            {
+                Console.WriteLine(category);
+            }
 
+            Console.Write("Category ID to remove: ");
+            int category_id = int.Parse(Console.ReadLine());
 
-            Console.Write("Category to remove: ");
-            categoryName = Console.ReadLine();
-
-            if (wordDatabase.RemoveCategory(wordDatabase.GetCategory(categoryName).ID))
+            if (wordDatabase.RemoveCategory(wordDatabase.GetCategory(category_id).ID))
                 Console.WriteLine("Success!");
 
             else
                 Console.WriteLine("Failed!");
 
 
-
-            foreach (Category category in wordDatabase.GetAllCategories())
+            categories = wordDatabase.GetAllCategories();
+            foreach (Category category in categories)
             {
                 Console.WriteLine(category);
             }
@@ -55,10 +59,10 @@ namespace EnglishWordGameTest
             Console.Write("Meaning: ");
             string hungarian = Console.ReadLine();
 
-            Console.Write("Category: ");
-            string category = Console.ReadLine();
+            Console.Write("Category ID: ");
+            int category_id = int.Parse(Console.ReadLine());
 
-            if (wordDatabase.AddWord(english, hungarian, wordDatabase.GetCategory(category).ID))
+            if (wordDatabase.AddWord(english, hungarian, wordDatabase.GetCategory(category_id).ID))
                 Console.WriteLine("Success!");
 
             else
@@ -66,18 +70,24 @@ namespace EnglishWordGameTest
 
 
 
-            Console.Write("Word to remove: ");
-            string english_word = Console.ReadLine();
+            List<Word> words = wordDatabase.GetAllWords();
+            foreach (Word word in words)
+            {
+                Console.WriteLine(word);
+            }
 
-            if(wordDatabase.RemoveWord(wordDatabase.GetWord(english_word).ID))
+            Console.Write("Word ID to remove: ");
+            int word_id = int.Parse(Console.ReadLine());
+
+            if(wordDatabase.RemoveWord(wordDatabase.GetWord(word_id).ID))
                 Console.WriteLine("Success!");
 
             else
                 Console.WriteLine("Failed!");
 
-            
 
-            foreach(Word word in wordDatabase.GetAllWords())
+            words = wordDatabase.GetAllWords();
+            foreach (Word word in words)
             {
                 Console.WriteLine(word);
             }

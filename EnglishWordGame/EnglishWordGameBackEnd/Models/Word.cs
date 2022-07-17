@@ -3,30 +3,30 @@
     public class Word
     {
         public int ID { get; set; }
-        public string EnglishWord { get; set; }
-        public string HungarianWord { get; set; }
+        public string OriginalWord { get; set; }
+        public string Meaning { get; set; }
         public int CategoryId { get; set; }
 
         public Word()
         {
-            this.ID = 1;
-            this.EnglishWord = String.Empty;
-            this.HungarianWord = String.Empty;
+            this.ID = 0;
+            this.OriginalWord = String.Empty;
+            this.Meaning = String.Empty;
             this.CategoryId = 1;
         }
 
-        public Word(int id, string englishWord, string hungarianWord, int category)
+        public Word(int id, string originalWord, string meaning, int categoryId)
         {
             this.ID = id;
-            this.EnglishWord = englishWord;
-            this.HungarianWord = hungarianWord;
-            this.CategoryId = category;
+            this.OriginalWord = originalWord;
+            this.Meaning = meaning;
+            this.CategoryId = categoryId;
         }
 
         public override string ToString()
         {
-            return $"ID: {this.ID}, English Word: {this.EnglishWord}, " +
-                $"Hungarian Word: {this.HungarianWord}, Category ID: {this.CategoryId}";
+            return $"ID: {this.ID}, Original Word: {this.OriginalWord}, " +
+                $"Meaning: {this.Meaning}, Category ID: {this.CategoryId}";
         }
     }
 }
