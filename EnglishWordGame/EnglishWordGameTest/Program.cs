@@ -11,9 +11,9 @@ namespace EnglishWordGameTest
         {
             wordDatabase = new WordDatabase("english_learning");
 
-            //LanguageTest();
-            //CategoryTest();
-            //WordTest();
+            LanguageTest();
+            CategoryTest();
+            WordTest();
 
             Console.ReadKey();
         }
