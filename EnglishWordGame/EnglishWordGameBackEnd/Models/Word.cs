@@ -6,6 +6,7 @@
         public string OriginalWord { get; set; }
         public string Meaning { get; set; }
         public int CategoryId { get; set; }
+        public int LanguageId { get; set; }
 
         public Word()
         {
@@ -13,20 +14,23 @@
             this.OriginalWord = String.Empty;
             this.Meaning = String.Empty;
             this.CategoryId = 1;
+            this.LanguageId = 1;
         }
 
-        public Word(int id, string originalWord, string meaning, int categoryId)
+        public Word(int id, string originalWord, string meaning, int categoryId, int languageId)
         {
             this.ID = id;
             this.OriginalWord = originalWord;
             this.Meaning = meaning;
             this.CategoryId = categoryId;
+            this.LanguageId = languageId;
         }
 
         public override string ToString()
         {
             return $"ID: {this.ID}, Original Word: {this.OriginalWord}, " +
-                $"Meaning: {this.Meaning}, Category ID: {this.CategoryId}";
+                $"Meaning: {this.Meaning}, Category ID: {this.CategoryId}, " +
+                $"LanguageId: {this.LanguageId}";
         }
     }
 }
