@@ -99,6 +99,16 @@ namespace EnglishWordGameBackEnd.Database
             return ExecuteCommand(command);
         }
 
+        public bool ModifyLanguage(int id, string name)
+        {
+            string query = "UPDATE languages SET name = @name WHERE id = @id";
+            SQLiteCommand command = new SQLiteCommand(query, connection);
+            command.Parameters.AddWithValue("@name", name);
+            command.Parameters.AddWithValue("@id", id);
+
+            return ExecuteCommand(command);
+        }
+
         public Language GetLanguage(int id)
         {
             string query = "SELECT id, name FROM languages WHERE id = @id";
@@ -156,6 +166,16 @@ namespace EnglishWordGameBackEnd.Database
         {
             string query = "DELETE FROM categories WHERE id = @id";
             SQLiteCommand command = new SQLiteCommand(query, connection);
+            command.Parameters.AddWithValue("@id", id);
+
+            return ExecuteCommand(command);
+        }
+
+        public bool ModifyCategory(int id, string name)
+        {
+            string query = "UPDATE categories SET name = @name WHERE id = @id";
+            SQLiteCommand command = new SQLiteCommand(query, connection);
+            command.Parameters.AddWithValue("@name", name);
             command.Parameters.AddWithValue("@id", id);
 
             return ExecuteCommand(command);
@@ -223,6 +243,21 @@ namespace EnglishWordGameBackEnd.Database
         {
             string query = "DELETE FROM words WHERE id = @id";
             SQLiteCommand command = new SQLiteCommand(query, connection);
+            command.Parameters.AddWithValue("@id", id);
+
+            return ExecuteCommand(command);
+        }
+
+        public bool ModifyWord(int id, string original_word, string meaning, int category_id, int language_id)
+        {
+            string query = "UPDATE words SET original_word = @original_word, " +
+                "meaning = @meaning, category_id = @category_id, " +
+                "language_id = @language_id WHERE id = @id";
+            SQLiteCommand command = new SQLiteCommand(query, connection);
+            command.Parameters.AddWithValue("@original_word", original_word);
+            command.Parameters.AddWithValue("@meaning", meaning);
+            command.Parameters.AddWithValue("@category_id", category_id);
+            command.Parameters.AddWithValue("@language_id", language_id);
             command.Parameters.AddWithValue("@id", id);
 
             return ExecuteCommand(command);
