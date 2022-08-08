@@ -17,7 +17,7 @@
 
 
         /// <summary>
-        /// Initializes a category with default values
+        /// Initializes a <see cref="Category"/> with default values
         /// </summary>
         public Category()
         {
@@ -26,7 +26,7 @@
         }
 
         /// <summary>
-        /// Initializes a category with the given values
+        /// Initializes a <see cref="Category"/> with the given values
         /// </summary>
         /// <param name="id"></param>
         /// <param name="name"></param>

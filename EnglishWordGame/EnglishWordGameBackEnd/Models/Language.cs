@@ -16,7 +16,7 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Initializes a language with default values
+        /// Initializes a <see cref="Language"/> with default values
         /// </summary>
         public Language()
         {
@@ -25,7 +25,7 @@
         }
 
         /// <summary>
-        /// Initializes a language with the given values
+        /// Initializes a <see cref="Language"/> with the given values
         /// </summary>
         /// <param name="id"></param>
         /// <param name="name"></param>

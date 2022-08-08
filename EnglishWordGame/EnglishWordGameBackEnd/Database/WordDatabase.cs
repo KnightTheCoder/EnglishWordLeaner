@@ -14,19 +14,13 @@ namespace EnglishWordGameBackEnd.Database
         /// </summary>
         private SQLiteConnection connection;
 
-        /// <summary>
-        /// The name of the database
-        /// </summary>
-        private readonly string name;
-
 
         /// <summary>
         /// Initializes a <see cref="WordDatabase"/> with the default name 'worddatabase'
         /// </summary>
         public WordDatabase()
         {
-            this.name = "worddatabase";
-            InitializeWordDatabase();
+            InitializeWordDatabase("worddatabase");
         }
 
         /// <summary>
@@ -34,8 +28,7 @@ namespace EnglishWordGameBackEnd.Database
         /// </summary>
         public WordDatabase(string name)
         {
-            this.name = name;
-            InitializeWordDatabase();
+            InitializeWordDatabase(name);
         }
 
 
@@ -44,7 +37,7 @@ namespace EnglishWordGameBackEnd.Database
         /// creates the database file,
         /// and creates the tables
         /// </summary>
-        private void InitializeWordDatabase()
+        private void InitializeWordDatabase(string name)
         {
             this.connection = new SQLiteConnection("Data Source = " +
                 $"{name}.sqlite;Version = 3;");
@@ -118,6 +111,8 @@ namespace EnglishWordGameBackEnd.Database
 
             return affectedRows > 0;
         }
+
+
 
         /// <summary>
         /// Adds a language to the database
@@ -216,6 +211,8 @@ namespace EnglishWordGameBackEnd.Database
             return languages;
         }
 
+
+
         /// <summary>
         /// Adds a category to the database
         /// </summary>
@@ -313,6 +310,8 @@ namespace EnglishWordGameBackEnd.Database
 
             return categories;
         }
+
+
 
         /// <summary>
         /// Adds a word to the database

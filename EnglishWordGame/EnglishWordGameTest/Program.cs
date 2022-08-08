@@ -107,7 +107,10 @@ namespace EnglishWordGameTest
             List<Word> words = wordDatabase.GetAllWords();
             foreach (Word word in words)
             {
-                Console.WriteLine(word);
+                //Console.WriteLine(word);
+                Console.WriteLine($"ID: {word.ID}, Original Word: {word.OriginalWord}, " +
+                    $"Meaning: {word.Meaning}, Category: {wordDatabase.GetCategory(word.CategoryId).Name}, " +
+                    $"Language: {wordDatabase.GetLanguage(word.LanguageId).Name}");
             }
 
             Console.Write("Word ID to remove: ");
@@ -119,7 +122,10 @@ namespace EnglishWordGameTest
             words = wordDatabase.GetAllWords();
             foreach (Word word in words)
             {
-                Console.WriteLine(word);
+                //Console.WriteLine(word);
+                Console.WriteLine($"ID: {word.ID}, Original Word: {word.OriginalWord}, " +
+                    $"Meaning: {word.Meaning}, Category: {wordDatabase.GetCategory(word.CategoryId).Name}, " +
+                    $"Language: {wordDatabase.GetLanguage(word.LanguageId).Name}");
             }
         }
     }

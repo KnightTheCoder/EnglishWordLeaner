@@ -31,7 +31,7 @@
         public int LanguageId { get; set; }
 
         /// <summary>
-        /// Initializes a word with default values
+        /// Initializes a <see cref="Word"/> with default values
         /// </summary>
         public Word()
         {
@@ -43,7 +43,7 @@
         }
 
         /// <summary>
-        /// Initializes a word with the given values
+        /// Initializes a <see cref="Word"/> with the given values
         /// </summary>
         /// <param name="id"></param>
         /// <param name="originalWord"></param>
